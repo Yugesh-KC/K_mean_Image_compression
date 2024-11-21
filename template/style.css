@@ -1,0 +1,115 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Header styling */
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Main content section */
+section {
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    color: #4CAF50;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input[type="file"],
+form input[type="number"],
+form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form input[type="file"] {
+    padding: 5px;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Image and Spinner styling */
+#uploadedImage, #compressedImage {
+    max-width: 50%;
+    height: auto;
+    display: none;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+#loadingSpinner {
+    display: none;
+    font-size: 18px;
+    color: #4CAF50;
+    margin-top: 20px;
+}
+
+#progress {
+    display: none;
+    margin-top: 20px;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+
+#progressBar {
+    height: 100%;
+    background-color: #4CAF50;
+    width: 0%;
+    border-radius: 5px;
+}
+
+/* Footer styling */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 40px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

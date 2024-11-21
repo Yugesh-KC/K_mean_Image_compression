@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compression using K-Means</title>
+   
+</head>
+<body>
+    <header>
+        <h1>Image Compression using K-Means Clustering</h1>
+    </header>
+    <section>
+        <h2>About K-Means Clustering</h2>
+        <p>
+            K-means clustering is a popular unsupervised machine learning algorithm that divides a set of data points into K distinct clusters based on their features. 
+            It works by iteratively assigning each data point to the nearest cluster centroid, then recalculating the centroids until the assignments stop changing. 
+            This algorithm is used for various applications, such as image compression, customer segmentation, and pattern recognition.
+        </p>
+        
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="image">Choose an Image to Compress:</label>
+            <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+            <label for="num_colors">Number of Colors:</label>
+            <input type="number" id="num_colors" name="num_colors" min="2" value="5" required><br><br>
+
+            <label for="max_iters">Max Iterations:</label>
+            <input type="number" id="max_iters" name="max_iters" min="1" value="100" required><br><br>
+
+            <button type="submit" id="compressBtn">Compress Image</button>
+        </form>
+
+        <div id="loadingSpinner">Compressing Image...</div>
+
+        <h3>Uploaded Image:</h3>
+        <img id="uploadedImage" src="" alt="Uploaded Image">
+        
+        <h3>Compressed Image:</h3>
+        <img id="compressedImage" src="" alt="Compressed Image">
+
+        <!-- Progress Bar -->
+        <div id="progress">
+            <div id="progressBar"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Created by <a href="https://github.com/Yugesh-KC">Yugesh KC</a></p>
+    </footer>
+
+    <script>
+        // Preview the uploaded image
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('uploadedImage').src = e.target.result;
+                    document.getElementById('uploadedImage').style.display = 'block'; // Show the uploaded image
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle form submission for image compression
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Disable the compress button during the process
+            const compressBtn = document.getElementById('compressBtn');
+            compressBtn.disabled = true;
+
+            // Reset the images and progress bar before new upload
+            document.getElementById('compressedImage').style.display = 'none';
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('progress').style.display = 'block';
+            document.getElementById('progressBar').style.width = '0%';
+
+            let formData = new FormData();
+            formData.append('image', document.getElementById('image').files[0]);
+            formData.append('num_colors', document.getElementById('num_colors').value);
+            formData.append('max_iters', document.getElementById('max_iters').value);
+
+            fetch('http://127.0.0.1:5000/compress', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                let imgUrl = URL.createObjectURL(blob);
+                document.getElementById('compressedImage').src = imgUrl;
+                document.getElementById('compressedImage').style.display = 'block';
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('progress').style.display = 'none';
+
+                // Enable the compress button after processing
+                compressBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error during image upload and compression.');
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('progress').style.display = 'none';
+
+                // Enable the compress button after processing
+                compressBtn.disabled = false;
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="style.css">
+</body>
+</html>
